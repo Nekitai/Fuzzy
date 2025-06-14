@@ -21,6 +21,7 @@ const App: React.FC = () => {
   const [hasil, setHasil] = useState<HasilItem[]>([]);
   const [spearman, setSpearman] = useState<number | null>(null);
 
+  // Ambil data hasil dari backend saat halaman dimuat
   useEffect(() => {
     const fetchHasil = async () => {
       try {
@@ -87,7 +88,7 @@ const App: React.FC = () => {
       }));
 
       setHasil(hasilFromBackend);
-      setSpearman(data.spearman_rho ?? null); // ← tambahkan ini
+      setSpearman(data.spearman_rho ?? null);
       setGroupName("");
       setTestScores({ testTulis: "", keterampilan: "", wawancara: "", kesehatan: "" });
     } catch (err) {
@@ -97,11 +98,12 @@ const App: React.FC = () => {
 
   const handleReset = async () => {
     try {
-      const response = await fetch("/reset", {
-        method: "POST",
-      });
+      const response = await fetch("/reset", { method: "POST" });
       if (response.ok) {
-        window.location.reload();
+        setHasil([]);
+        setSpearman(null);
+        setGroupName("");
+        setTestScores({ testTulis: "", keterampilan: "", wawancara: "", kesehatan: "" });
       } else {
         console.error("Reset gagal");
       }
@@ -182,7 +184,7 @@ const App: React.FC = () => {
                 </tbody>
               </table>
             )}
-            {/* Tampilkan koefisien Spearman jika ada */}
+
             {spearman !== null && (
               <div className="mt-4 text-center text-lg text-gray-700">
                 <strong>Koefisien Spearman:</strong> {spearman.toFixed(4)}
@@ -197,7 +199,7 @@ const App: React.FC = () => {
         </div>
       </div>
       <footer className="mt-8 text-center text-gray-600">
-        <p>&copy; {new Date().getFullYear()} Aplikasi Penilaian Fuzzy Fajar Apriyadi </p>
+        <p>&copy; {new Date().getFullYear()} Aplikasi Penilaian Fuzzy Fajar Apriyadi</p>
       </footer>
     </div>
   );
