@@ -70,7 +70,7 @@ const App: React.FC = () => {
       }));
 
       setHasil(hasilFromBackend);
-      setSpearman(data.spearman ?? null); // ← tambahkan ini
+      setSpearman(data.spearman_rho ?? null); // ← tambahkan ini
       setGroupName("");
       setTestScores({ testTulis: "", keterampilan: "", wawancara: "", kesehatan: "" });
     } catch (err) {
@@ -165,6 +165,7 @@ const App: React.FC = () => {
                 </tbody>
               </table>
             )}
+            {/* Tampilkan koefisien Spearman jika ada */}
             {spearman !== null && (
               <div className="mt-4 text-center text-lg text-gray-700">
                 <strong>Koefisien Spearman:</strong> {spearman.toFixed(4)}

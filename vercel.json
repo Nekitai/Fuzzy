@@ -1,0 +1,35 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "/logic/wsgi.py"
+    }
+  ],
+  "builds": [
+    {
+      "src": "fuzzy/package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "outputDirectory": "dist" // Atau "build" jika menggunakan Create React App
+      }
+    },
+    {
+      "src": "logic/wsgi.py", // Vercel akan mencari file ini di folder 'logic'
+      "use": "@vercel/python",
+      "config": {
+        "maxLambdaSize": "15mb", // Cukup untuk sebagian besar aplikasi Flask tanpa banyak dependensi
+        "runtime": "python3.9"  // Atau python3.10, python3.11, dst. Sesuaikan dengan kebutuhan Anda
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/api/$1" // Mengarahkan semua request yang dimulai dengan /api ke backend Python Anda
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/fuzzy/$1" // Mengarahkan semua request yang bukan /api ke frontend React Anda
+    }
+  ]
+}
