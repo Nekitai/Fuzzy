@@ -112,6 +112,7 @@ const App: React.FC = () => {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 p-4 font-sans">
+      <h1 className="text-2xl font-bold mb-4 text-gray-800">Fajar Apriyadi & Nara Puspitasari</h1>
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-5xl lg:flex lg:gap-8 items-stretch">
         {/* Input Section */}
         <div className="bg-gray-200 p-6 rounded-lg w-full lg:w-1/2 shadow-md flex flex-col">
