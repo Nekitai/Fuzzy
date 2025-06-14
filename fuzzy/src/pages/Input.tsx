@@ -80,7 +80,7 @@ const App: React.FC = () => {
 
   const handleReset = async () => {
     try {
-      const response = await fetch("http://localhost:5000/reset", {
+      const response = await fetch("/api/reset", {
         method: "POST",
       });
       if (response.ok) {
