@@ -36,7 +36,7 @@ const App: React.FC = () => {
     };
 
     try {
-      const response = await fetch("http://localhost:5000/fuzzy", {
+      const response = await fetch("/api/fuzzy", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),

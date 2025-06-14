@@ -1,9 +1,16 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+import os
 
 app = Flask(__name__)
-CORS(app)
+# Konfigurasi CORS: Opsi 2 (Direkomendasikan untuk Produksi)
+# Menggunakan Environment Variable 'ALLOWED_ORIGINS'
+ALLOWED_ORIGINS_STR = os.environ.get("ALLOWED_ORIGINS", "").split(',')
+ALLOWED_ORIGINS = [origin.strip() for origin in ALLOWED_ORIGINS_STR if origin.strip()]
 
+CORS(app, resources={r"/*": {"origins": ALLOWED_ORIGINS, "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"], "allow_headers": ["Content-Type"]}})
+# Menggunakan r"/*" agar semua rute (termasuk /fuzzy dan /reset) tercakup.
+# Menambahkan "OPTIONS" untuk preflight requests.
 
 # Hitung nilai pakar
 def hitung_pakar(tulis, keterampilan, wawancara, kesehatan):
@@ -230,6 +237,3 @@ def reset_data():
     data_peserta = []
     return jsonify({"status": "reset berhasil"})
 
-
-if __name__ == '__main__':
-    app.run(debug=True, host='127.0.0.1', port=5000)
