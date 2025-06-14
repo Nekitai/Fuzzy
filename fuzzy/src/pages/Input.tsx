@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 type HasilItem = {
   nama: string;
@@ -20,6 +20,23 @@ const App: React.FC = () => {
   });
   const [hasil, setHasil] = useState<HasilItem[]>([]);
   const [spearman, setSpearman] = useState<number | null>(null);
+
+  useEffect(() => {
+    const fetchHasil = async () => {
+      try {
+        const response = await fetch("/get-hasil");
+        const data = await response.json();
+        if (Array.isArray(data.hasil)) {
+          setHasil(data.hasil);
+          setSpearman(data.spearman_rho ?? null);
+        }
+      } catch (err) {
+        console.error("Gagal memuat hasil awal:", err);
+      }
+    };
+
+    fetchHasil();
+  }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
