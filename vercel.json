@@ -1,29 +1,32 @@
 {
-  "rewrites": [
-    {
-      "source": "/api/(.*)",
-      "destination": "/logic/wsgi.py"
-    },
-    {
-      "source": "/(.*)",
-      "destination": "/fuzzy/$1"
-    }
-  ],
+  "version": 2,
   "builds": [
     {
       "src": "fuzzy/package.json",
       "use": "@vercel/static-build",
       "config": {
-        "outputDirectory": "dist" 
+        "distDir": "fuzzy/dist"
       }
     },
     {
       "src": "logic/wsgi.py",
-      "use": "@vercel/python",
-      "config": {
-        "maxLambdaSize": "15mb",
-        "runtime": "python3.9"  
-      }
+      "use": "@vercel/python"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/fuzzy",
+      "methods": ["POST"],
+      "dest": "logic/wsgi.py"
+    },
+    {
+      "src": "/reset",
+      "methods": ["POST"],
+      "dest": "logic/wsgi.py"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/fuzzy/$1"
     }
   ]
 }

@@ -36,7 +36,7 @@ const App: React.FC = () => {
     };
 
     try {
-      const response = await fetch("/api/fuzzy", {
+      const response = await fetch("/fuzzy", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
@@ -80,7 +80,7 @@ const App: React.FC = () => {
 
   const handleReset = async () => {
     try {
-      const response = await fetch("/api/reset", {
+      const response = await fetch("/reset", {
         method: "POST",
       });
       if (response.ok) {

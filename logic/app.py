@@ -159,7 +159,6 @@ def average_rank(values, descending=True):
         i = j
     return ranks
 
-
 data_peserta = []
 
 @app.route('/fuzzy', methods=['POST'])
@@ -237,3 +236,5 @@ def reset_data():
     data_peserta = []
     return jsonify({"status": "reset berhasil"})
 
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=10000)
