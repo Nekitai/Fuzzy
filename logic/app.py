@@ -240,51 +240,5 @@ def reset_data():
 def internal_error(error):
     return jsonify({"error": "Internal Server Error", "message": str(error)}), 500
 
-@app.route('/get-hasil', methods=['GET'])
-def get_hasil():
-    if not data_peserta:
-        return jsonify({'hasil': [], 'spearman_rho': None})
-
-    hasil = []
-    for item in data_peserta:
-        nama = item['nama']
-        tulis = item['tulis']
-        keterampilan = item['keterampilan']
-        wawancara = item['wawancara']
-        kesehatan = item['kesehatan']
-
-        fuzzy_nilai, status, _ = fuzzy_tsukamoto(tulis, keterampilan, wawancara, kesehatan)
-        pakar_nilai = hitung_pakar(tulis, keterampilan, wawancara, kesehatan)
-
-        hasil.append({
-            'nama': nama,
-            'pakar': pakar_nilai,
-            'sistem': fuzzy_nilai,
-            'status': status
-        })
-
-    pakar_list = [int(round(item['pakar'])) for item in hasil]
-    sistem_list = [int(round(item['sistem'])) for item in hasil]
-
-    rank_pakar = average_rank(pakar_list, descending=True)
-    rank_sistem = average_rank(sistem_list, descending=True)
-
-    for i, item in enumerate(hasil):
-        item['pakar'] = int(round(item['pakar']))
-        item['sistem'] = int(round(item['sistem']))
-        item['rank_pakar'] = rank_pakar[i]
-        item['rank_sistem'] = rank_sistem[i]
-        item['di'] = item['rank_pakar'] - item['rank_sistem']
-        item['di2'] = item['di'] ** 2
-
-    n = len(hasil)
-    total_di2 = round(sum(item['di2'] for item in hasil), 2)
-    spearman_rho = round(1 - (6 * total_di2) / (n * (n**2 - 1)), 3) if n > 1 else 1
-
-    return jsonify({
-        'hasil': hasil,
-        'total_di2': total_di2,
-        'spearman_rho': spearman_rho
-    })
 
 
