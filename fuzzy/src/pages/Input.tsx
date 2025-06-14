@@ -179,6 +179,9 @@ const App: React.FC = () => {
           )}
         </div>
       </div>
+      <footer className="mt-8 text-center text-gray-600">
+        <p>&copy; {new Date().getFullYear()} Aplikasi Penilaian Fuzzy Fajar Apriyadi </p>
+      </footer>
     </div>
   );
 };
