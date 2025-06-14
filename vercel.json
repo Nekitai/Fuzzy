@@ -3,6 +3,10 @@
     {
       "source": "/api/(.*)",
       "destination": "/logic/wsgi.py"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/fuzzy/$1"
     }
   ],
   "builds": [
@@ -14,11 +18,11 @@
       }
     },
     {
-      "src": "logic/wsgi.py", 
+      "src": "logic/wsgi.py",
       "use": "@vercel/python",
       "config": {
         "maxLambdaSize": "15mb",
-        "runtime": "python3.9"
+        "runtime": "python3.9"  
       }
     }
   ]
